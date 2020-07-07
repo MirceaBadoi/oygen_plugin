@@ -2,7 +2,7 @@ language: java
 sudo: required
 addons: 
  sonarcloud:
-    organization: "oxygenxml-github"
+    organization: "oxygen"
     token: "${SONAR_CLOUD_TOKEN}"
 
 dist: trusty

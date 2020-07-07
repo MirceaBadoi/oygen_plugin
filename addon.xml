@@ -8,7 +8,7 @@
         <xt:oxy_version>14.0+</xt:oxy_version>
         <xt:type>plugin</xt:type>
         <xt:author>Mircea Badoi</xt:author>
-        <xt:name>translater</xt:name>
+        <xt:name>translator</xt:name>
         <xt:description xmlns="http://www.w3.org/1999/xhtml"></xt:description>
         <xt:license>
 <![CDATA[

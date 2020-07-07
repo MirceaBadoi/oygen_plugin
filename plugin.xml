@@ -3,8 +3,8 @@
 <!DOCTYPE plugin SYSTEM "../plugin.dtd">
 
 <plugin
- id="com.oxygenxml.plugin.Translater"
- name="Transleter"
+ id="com.oxygenxml.plugin.Translator"
+ name="Translator"
  description="Translate selected text"
  version="${project.version}"
  vendor="oXygen XML"
@@ -17,9 +17,9 @@
 	<librariesFolder name="target/lib" />
  </runtime>
  
- <extension type="WorkspaceAccess" class="com.oxygenxml.translate.plugin.TranslaterPluginExtension"/>
+ <extension type="WorkspaceAccess" class="com.oxygenxml.translate.plugin.TranslatorPluginExtension"/>
  
   <!--The sample view which will present messages from the sample plugin.-->
-  <view id="TranslaterWorkspace" initialSide="WEST" initialRow="0"/>
+  <view id="TranslatorWorkspace" initialSide="WEST" initialRow="0"/>
   <!--The sample toolbar which will present messages from the sample plugin.-->
 </plugin>

@@ -2,12 +2,10 @@ package com.oxygenxml.translate.plugin;
 
 
 import java.awt.Desktop;
+
 import java.awt.event.ActionEvent;
 import java.net.URL;
-import java.util.ArrayList;
-
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -44,16 +42,9 @@ public class TranslaterPluginExtension implements WorkspaceAccessPluginExtension
    * @see ro.sync.exml.plugin.workspace.WorkspaceAccessPluginExtension#applicationStarted(ro.sync.exml.workspace.api.standalone.StandalonePluginWorkspace)
    */
   public void applicationStarted(final StandalonePluginWorkspace pluginWorkspaceAccess) {
-	  //You can set or read global options.
-	  //The "ro.sync.exml.options.APIAccessibleOptionTags" contains all accessible keys.
-	  //		  pluginWorkspaceAccess.setGlobalObjectProperty("can.edit.read.only.files", Boolean.FALSE);
-	  // Check In action
-
-	  //You can access the content inside each opened WSEditor depending on the current editing page (Text/Grid or Author).  
-	  // A sample action which will be mounted on the  toolbar and contextual menu.
-	
-	//Mount the action on the contextual menus for the Text and Author modes.
 	  
+	  
+
 	pluginWorkspaceAccess.addMenusAndToolbarsContributorCustomizer(new MenusAndToolbarsContributorCustomizer() {
 				/**
 				 * Customize the author popup menu.
@@ -84,13 +75,12 @@ public class TranslaterPluginExtension implements WorkspaceAccessPluginExtension
 		   */
 		  public void customizeView(ViewInfo viewInfo) {
 			  if(
-					  //The view ID defined in the "plugin.xml"
+					 
 					  "SampleWorkspaceAccessID".equals(viewInfo.getViewID())) {
 				  customMessagesArea = new JTextArea("Messages:");
 				  viewInfo.setComponent(new JScrollPane(customMessagesArea));
 				  viewInfo.setTitle("Custom Messages");
-				  //You can have images located inside the JAR library and use them...
-//				  viewInfo.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/customMessage.png").toString()));
+				 
 			  } 
 		  }
 	  }); 
@@ -106,14 +96,13 @@ public class TranslaterPluginExtension implements WorkspaceAccessPluginExtension
 	private AbstractAction createShowSelectionAction(
 			
 			final StandalonePluginWorkspace pluginWorkspaceAccess, String language) {
-		return new AbstractAction("Translate To " + language.toUpperCase()) {
+		Languages lang=new Languages();
+		return new AbstractAction("Translate To " + lang.getLanguageName(language)) {
 			  public void actionPerformed(ActionEvent actionevent) {
 				  //Get the current opened XML document
 				  WSEditor editorAccess = pluginWorkspaceAccess.getCurrentEditorAccess(StandalonePluginWorkspace.MAIN_EDITING_AREA);
 				  WSOptionsStorage optionsStorage = pluginWorkspaceAccess.getOptionsStorage();
 				  String roCount = optionsStorage.getOption(RO_LANG_ACCESS_COUNT, String.valueOf(0));
-				  
-				  
 				  
 				  
 				  // The action is available only in Author mode.
@@ -151,7 +140,7 @@ public class TranslaterPluginExtension implements WorkspaceAccessPluginExtension
 						  WSTextEditorPage textPage = (WSTextEditorPage) editorAccess.getCurrentPage();
 						  if (textPage.hasSelection()) {
 							  try {
-								  Desktop.getDesktop().browse(new URL("https://translate.google.com/#view=home&op=translate&sl=auto&tl=" + language.toLowerCase() + "&text="+pluginWorkspaceAccess.getUtilAccess().correctURL(textPage.getSelectedText())).toURI());
+								  Desktop.getDesktop().browse(new URL("https://translate.google.com/#view=home&op=translate&sl=auto&tl=" + language + "&text="+pluginWorkspaceAccess.getUtilAccess().correctURL(textPage.getSelectedText())).toURI());
 								} catch (Exception e) {}
 						  } else {
 							  // No selection
@@ -168,53 +157,39 @@ public class TranslaterPluginExtension implements WorkspaceAccessPluginExtension
 		  };
 	}
   
-  /**
-   * @see ro.sync.exml.plugin.workspace.WorkspaceAccessPluginExtension#applicationClosing()
-   */
+  
   public boolean applicationClosing() {
 	  //You can reject the application closing here
     return true;
   }
   
   public void createMenuLanguages(JPopupMenu popup,StandalonePluginWorkspace pluginWorkspaceAccess) {
-	  String[] languageArray= {"ro","es","de","bg"};
+	  String[] mainLanguageArray= {"en","fr","de","es","zh-CN","ja"};
+	  String[] secondaryLanguageArray= {"ro","nl","hu"};
+	  
 	  JMenu sectionsMenu = new JMenu("Translate Selected");
-
-	  for(String s: languageArray) {
+	  JMenu others=new JMenu("Others");
+	  
+	  for(String s: secondaryLanguageArray) {
+		  JMenuItem menuItem = new JMenuItem(createShowSelectionAction(pluginWorkspaceAccess,s));
+		  others.add(menuItem);
+	  }
+	  for(String s: mainLanguageArray) {
 		  JMenuItem menuItem = new JMenuItem(createShowSelectionAction(pluginWorkspaceAccess,s));
 		  sectionsMenu.add(menuItem);
 	  }
+	  
+	  sectionsMenu.add(others);
 	  popup.add(sectionsMenu);
+	  
 	
   }
   
   public void deceidePluginStatusContextualMenu (JPopupMenu popup,StandalonePluginWorkspace pluginWorkspaceAccess) {
 	  WSEditor editorAccess = pluginWorkspaceAccess.getCurrentEditorAccess(StandalonePluginWorkspace.MAIN_EDITING_AREA);
 	  WSAuthorEditorPage authorPageAccess = (WSAuthorEditorPage) editorAccess.getCurrentPage();
-	  
-	  if(authorPageAccess.hasSelection()) {
-		  popup.setEnabled(true);
-	  }
-	  else {
-		  popup.setEnabled(false);
-	  }
+		  popup.setEnabled(authorPageAccess.hasSelection());
 	  
   }
-  private static enum Lang {
-	  
-	  RO(0, 0),
-	  
-	  ES(1, 0);
-	  
-	  
-	  
-	  private int id;
-	private int count;
-
-	Lang (int id, int count){
-		this.id = id;
-		this.count = count;
-		  
-	  }
-  }
+  
 }

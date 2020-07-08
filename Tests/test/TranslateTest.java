@@ -25,13 +25,13 @@ public class TranslateTest {
 		mockList.add("nl");
 		mockList.add("ja");
 		mockList.add("hu");
-		when(mockList.get(0)).thenReturn(lang.getLanguageName("ro"));
-		when(mockList.get(1)).thenReturn(lang.getLanguageName("es"));
-		when(mockList.get(2)).thenReturn(lang.getLanguageName("en"));
-		when(mockList.get(3)).thenReturn(lang.getLanguageName("zh-CN"));
-		when(mockList.get(4)).thenReturn(lang.getLanguageName("nl"));
-		when(mockList.get(5)).thenReturn(lang.getLanguageName("ja"));
-		when(mockList.get(6)).thenReturn(lang.getLanguageName("hu"));
+		when(mockList.get(0)).thenReturn(Languages.getLanguageName("ro"));
+		when(mockList.get(1)).thenReturn(Languages.getLanguageName("es"));
+		when(mockList.get(2)).thenReturn(Languages.getLanguageName("en"));
+		when(mockList.get(3)).thenReturn(Languages.getLanguageName("zh-CN"));
+		when(mockList.get(4)).thenReturn(Languages.getLanguageName("nl"));
+		when(mockList.get(5)).thenReturn(Languages.getLanguageName("ja"));
+		when(mockList.get(6)).thenReturn(Languages.getLanguageName("hu"));
 
 		ArrayList<String> response = new ArrayList<String>() {{
 	        add("Romanian");

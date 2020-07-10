@@ -5,51 +5,46 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 
 import javax.swing.AbstractAction;
-import ro.sync.exml.workspace.api.PluginWorkspace;
-import ro.sync.exml.workspace.api.editor.WSEditor;
-import ro.sync.exml.workspace.api.editor.page.WSEditorPage;
-import ro.sync.exml.workspace.api.editor.page.WSTextBasedEditorPage;
-import ro.sync.exml.workspace.api.standalone.StandalonePluginWorkspace;
 
+import ro.sync.exml.workspace.api.PluginWorkspace;
+import ro.sync.exml.workspace.api.editor.page.WSTextBasedEditorPage;
+/**
+ * 
+ * @author Badoi Mircea
+ *
+ */
 @SuppressWarnings("serial")
 public class TranslateToLanguageAction extends AbstractAction {
 	
 	private PluginWorkspace pluginWorkspaceAccess;
 	private String language;
+	private WSTextBasedEditorPage textPage;
 
 
 	/**
-	 * 
+	 * Constructor
 	 * @param pluginWorkspaceAccess
 	 * @param language
 	 */
-	public TranslateToLanguageAction(PluginWorkspace pluginWorkspaceAccess, String language) {
+	public TranslateToLanguageAction(PluginWorkspace pluginWorkspaceAccess, WSTextBasedEditorPage textPage, String language,String actionName) {
+		super(actionName);
 		this.pluginWorkspaceAccess = pluginWorkspaceAccess;
+		this.textPage = textPage;
 		this.language = language;
 	}
 	
-
+	/**
+	 * Swing action
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		// Get the current opened XML document
-		WSEditor editorAccess = pluginWorkspaceAccess
-				.getCurrentEditorAccess(StandalonePluginWorkspace.MAIN_EDITING_AREA);
-
-		if (editorAccess != null) {
-			WSEditorPage currentPage = editorAccess.getCurrentPage();
-			if (currentPage instanceof WSTextBasedEditorPage) {
-				WSTextBasedEditorPage wsTextBasedEditorPage = (WSTextBasedEditorPage)currentPage; 
-				if (wsTextBasedEditorPage.hasSelection()) {
-
-					browse(wsTextBasedEditorPage.getSelectedText());
-
-				}
-			} 
-			
-		}
+		browse(textPage.getSelectedText());
 	}
 	
+	/**
+	 * Browse selected text
+	 * @param selectedText
+	 */
 	private void browse(String selectedText) {
 		try {
 			Desktop.getDesktop()

@@ -3,18 +3,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
     <xt:extension id="1.0">
-        <xt:location href="file:/C:/Users/bmami/Documents/syncro/sample-plugin-workspace-access-master.zip"/>
+        <xt:location href="${project.build.finalName}-plugin.jar"/>
         <xt:version>1.0.0</xt:version>
         <xt:oxy_version>14.0+</xt:oxy_version>
         <xt:type>plugin</xt:type>
-        <xt:author>Mircea Badoi</xt:author>
-        <xt:name>translator</xt:name>
-        <xt:description xmlns="http://www.w3.org/1999/xhtml"></xt:description>
+        <xt:author>Syncro Soft</xt:author>
+        <xt:name>Translator Helper</xt:name>
+        <xt:description><html xmlns="http://www.w3.org/1999/xhtml">
+	            <head>
+	                <title>Terminology Checker (Experimental)</title>
+	            </head>
+	            <body>
+	                <div>
+	                	<p>This add-on contributes a Translator Helper  to Oxygen XML Editor/Author.</p>
+	                    <p>You can right click on a selected text and translate it to various languages.</p>>
+	                </div>
+	            </body>
+	        </html>
+    	</xt:description>
         <xt:license>
-<![CDATA[
-
-END USER LICENSE AGREEMENT
-
-]]></xt:license>
+        <![CDATA[(c) Syncro Soft , All rights reserved.
+			This Plug-In is part of the Oxygen XML Software and, as such, is part of the License Agreement governing the Oxygen XML Software.
+			]]>
+    	</xt:license>
     </xt:extension>
 </xt:extensions>

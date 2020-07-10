@@ -2,8 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -16,7 +16,6 @@ public class TranslateTest {
 	@SuppressWarnings({ "serial", "unchecked" })
 	@Test
 	public void testLanguagesSelect() {
-		Languages lang = new Languages();
 		ArrayList<String> mockList = mock(ArrayList.class);
 		mockList.add("ro");
 		mockList.add("es");

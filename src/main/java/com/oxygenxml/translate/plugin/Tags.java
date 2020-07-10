@@ -16,11 +16,11 @@ public class Tags {
 	/**
 	 * The text of JMenu
 	 */
-	public static final String MENU_TEXT = "Menu_Text";
+	public static final String TRANSLATE_TO = "Translate_To";
 
 	/**
 	 * Text for the "Others" JMenu
 	 */
 
-	public static final String SUBMENU_TEXT = "Others_Submenu";
+	public static final String OTHERS_SUBMENU = "Others_Submenu";
 }

@@ -2,6 +2,7 @@ package com.oxygenxml.translate.plugin;
 
 import javax.swing.JMenu;
 
+
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -23,10 +24,9 @@ import ro.sync.exml.workspace.api.standalone.actions.MenusAndToolbarsContributor
 public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension {
 
 	/**
-	 * The custom messages area. 
+	 * The custom messages area.
 	 */
 	private JTextArea customMessagesArea;
-
 	private OxygenTranslator message = new OxygenTranslator();
 
 	/**
@@ -45,7 +45,7 @@ public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension
 
 				decidePluginStatusContextualMenu(popup, pluginWorkspaceAccess);
 			}
-			
+
 			/**
 			 * Customize the text popup menu
 			 */
@@ -64,10 +64,10 @@ public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension
 			public void customizeView(ViewInfo viewInfo) {
 				if (
 
-				"SampleWorkspaceAccessID".equals(viewInfo.getViewID())) {
+				"TranslatorWorkspace".equals(viewInfo.getViewID())) {
 					customMessagesArea = new JTextArea("Messages:");
 					viewInfo.setComponent(new JScrollPane(customMessagesArea));
-					viewInfo.setTitle("Custom Messages");
+					viewInfo.setTitle("Translator");
 
 				}
 			}
@@ -76,10 +76,13 @@ public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension
 
 	public boolean applicationClosing() {
 		// You can reject the application closing here
+
 		return true;
 	}
+
 	/**
 	 * Create menu with supported languages
+	 * 
 	 * @param popup
 	 * @param pluginWorkspaceAccess
 	 * @param wsTextBasedEditorPage
@@ -87,28 +90,27 @@ public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension
 
 	public void createMenuLanguages(JPopupMenu popup, StandalonePluginWorkspace pluginWorkspaceAccess,
 			WSTextBasedEditorPage wsTextBasedEditorPage) {
-	
-		int numberOfLanguagesInMenu=6;//number of languages on menu page
-		String[] languageArray = Languages.getLanguges();
+
+		int numberOfLanguagesInMenu = 6;// number of languages on menu page
+		String[] languageArray = Languages.getLanguagesISOCodes(
+				pluginWorkspaceAccess.getOptionsStorage(),
+				Languages.LANGUAGES.keySet());
 
 		JMenu newMenu = new JMenu(message.getTranslation(Tags.TRANSLATE_TO));
 		JMenu indexMenu = newMenu;
-		
-		/**
-		 * Go through all languages 
-		 */
-		for(int index=0;index<languageArray.length;index++) {
-			TranslateToLanguageAction translator = new TranslateToLanguageAction(pluginWorkspaceAccess, wsTextBasedEditorPage,
-					languageArray[index], message.getTranslation(Languages.getLanguageName(languageArray[index])));
-			
+
+		 //Go through all languages
+		for (int index = 0; index < languageArray.length; index++) {
+			TranslateToLanguageAction translator = new TranslateToLanguageAction(pluginWorkspaceAccess,
+					wsTextBasedEditorPage, languageArray[index],
+					message.getTranslation(Languages.getLanguageName(languageArray[index])));
+
 			JMenuItem menuItem = new JMenuItem(translator);
 			indexMenu.add(menuItem);
-			
-			/**
-			 * make the menu have  7 items, including others item
-			 * also do not add others item if  the menu have less then 6 languages added
-			 */
-			if ((index+1) % numberOfLanguagesInMenu == 0 && index < languageArray.length && index!=0) {
+
+			 // make the menu have 7 items, including others item also do not add others item
+			 //if the menu have less then 6 languages added
+			if ((index + 1) % numberOfLanguagesInMenu == 0 && index != 0) {
 				JMenu others = new JMenu(message.getTranslation(Tags.OTHERS_SUBMENU));
 				indexMenu.add(others);
 				indexMenu = others;
@@ -119,9 +121,11 @@ public class TranslatorPluginExtension implements WorkspaceAccessPluginExtension
 		popup.add(newMenu);
 
 	}
-	
+
 	/**
-	 * Make the language menu available if any text in selected and disable it if not
+	 * Make the language menu available if any text in selected and disable it if
+	 * not
+	 * 
 	 * @param popup
 	 * @param pluginWorkspaceAccess
 	 */

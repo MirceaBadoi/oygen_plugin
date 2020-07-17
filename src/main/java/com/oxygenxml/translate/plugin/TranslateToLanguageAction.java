@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
+<<<<<<< HEAD
 
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.content.TextContentIterator;
@@ -22,10 +23,19 @@ import ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog;
  * @author Badoi Mircea
  *
  */
+=======
+import ro.sync.exml.workspace.api.PluginWorkspace;
+import ro.sync.exml.workspace.api.editor.WSEditor;
+import ro.sync.exml.workspace.api.editor.page.WSEditorPage;
+import ro.sync.exml.workspace.api.editor.page.WSTextBasedEditorPage;
+import ro.sync.exml.workspace.api.standalone.StandalonePluginWorkspace;
+
+>>>>>>> parent of 9d09272... update
 @SuppressWarnings("serial")
 public class TranslateToLanguageAction extends AbstractAction {
 
 	private PluginWorkspace pluginWorkspaceAccess;
+<<<<<<< HEAD
 	private String languageCode;
 	private WSTextBasedEditorPage textPage;
 	public static final String PATTERN = " _674_1_\n";
@@ -102,6 +112,43 @@ public class TranslateToLanguageAction extends AbstractAction {
 	 * 
 	 * @param selectedText
 	 */
+=======
+	private String language;
+
+
+	/**
+	 * 
+	 * @param pluginWorkspaceAccess
+	 * @param language
+	 */
+	public TranslateToLanguageAction(PluginWorkspace pluginWorkspaceAccess, String language) {
+		this.pluginWorkspaceAccess = pluginWorkspaceAccess;
+		this.language = language;
+	}
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		// Get the current opened XML document
+		WSEditor editorAccess = pluginWorkspaceAccess
+				.getCurrentEditorAccess(StandalonePluginWorkspace.MAIN_EDITING_AREA);
+
+		if (editorAccess != null) {
+			WSEditorPage currentPage = editorAccess.getCurrentPage();
+			if (currentPage instanceof WSTextBasedEditorPage) {
+				WSTextBasedEditorPage wsTextBasedEditorPage = (WSTextBasedEditorPage)currentPage; 
+				if (wsTextBasedEditorPage.hasSelection()) {
+
+					browse(wsTextBasedEditorPage.getSelectedText());
+
+				}
+			} 
+			
+		}
+	}
+	
+>>>>>>> parent of 9d09272... update
 	private void browse(String selectedText) {
 
 		try {

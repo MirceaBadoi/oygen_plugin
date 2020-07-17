@@ -13,6 +13,7 @@ import java.util.Set;
 import ro.sync.exml.workspace.api.options.WSOptionsStorage;
 
 public class Languages {
+<<<<<<< HEAD
 	public static final String ID_LANG = "com.oxygenxml.key.language.priority";
 	public static final HashMap<String, String> LANGUAGES = new LinkedHashMap<>();
 	
@@ -23,6 +24,9 @@ public class Languages {
 	/**
 	 * Supported languages
 	 */
+=======
+	private static LinkedHashMap<String, String> lang = new LinkedHashMap<>();
+>>>>>>> parent of 9d09272... update
 	static {
 		LANGUAGES.put("en", "English");
 		LANGUAGES.put("fr", "French");
@@ -36,6 +40,7 @@ public class Languages {
 		LANGUAGES.put("da", "Danish");
 
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Get the corresponding name for a given id
@@ -43,9 +48,14 @@ public class Languages {
 	 * @param id
 	 * @return String
 	 */
+=======
+	
+	
+>>>>>>> parent of 9d09272... update
 	public static String getLanguageName(String id) {
 		return LANGUAGES.get(id);
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Returns the id for every supported language
@@ -85,6 +95,11 @@ public class Languages {
 		}
 
 		return langs.toArray(new String[0]);
+=======
+	
+	public static String[] getLanguges() {
+		return new ArrayList<String>(lang.keySet()).toArray(new String[0]);
+>>>>>>> parent of 9d09272... update
 	}
 	/**
 	 * Increases priority for the most used languages

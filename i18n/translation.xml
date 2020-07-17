@@ -8,14 +8,13 @@
 		<language description="Dutch" lang="nl_NL" />
 	</languageList>
 	
-	<key value="Menu_Text">
+	<key value="Translate_To">
 		<comment>The text of menu that contains the translator.</comment>
 		<val lang="en_US">Translate to</val>
 		<val lang="de_DE">Übersetzen ins</val>
 		<val lang="fr_FR">Traduire en</val>
 		<val lang="ja_JP">に翻訳 Ni hon'yaku</val>
 		<val lang="nl_NL">Vertalen naar</val>
-		<val lang="ch-ch-ZN">Chinese</val>
 	</key>
 	
 	<key value="Romanian">
@@ -29,51 +28,105 @@
 	<key value="German">
 		<comment>Text from MenuItem.</comment>
 		<val lang="en_US">German</val>
-		<val lang="de_DE">German</val>
-		<val lang="fr_FR">German</val>
-		<val lang="ja_JP">German</val>
-		<val lang="nl_NL">German</val>
+		<val lang="de_DE">Deutsche</val>
+		<val lang="fr_FR">Allemand</val>
+		<val lang="ja_JP">ドイツ人</val>
+		<val lang="nl_NL">Duitse</val>
 	</key>
 	<key value="Spanish">
 		<comment>Text from MenuItem.</comment>
 		<val lang="en_US">Spanish</val>
-		<val lang="de_DE">Spanish</val>
-		<val lang="fr_FR">Spanish</val>
-		<val lang="ja_JP">Spanish</val>
-		<val lang="nl_NL">Spanish</val>
+		<val lang="de_DE">Spanisch</val>
+		<val lang="fr_FR">Espagnol</val>
+		<val lang="ja_JP">スペイン語</val>
+		<val lang="nl_NL">Spaans</val>
 	</key>
 	<key value="Hungarian">
 		<comment>Text from MenuItem.</comment>
 		<val lang="en_US">Hungarian</val>
-		<val lang="de_DE">Hungarian</val>
-		<val lang="fr_FR">Hungarian</val>
-		<val lang="ja_JP">Hungarian</val>
-		<val lang="nl_NL">Hungarian</val>
+		<val lang="de_DE">Ungarisch</val>
+		<val lang="fr_FR">Hongrois</val>
+		<val lang="ja_JP">ハンガリー人</val>
+		<val lang="nl_NL">Hongaars</val>
 	</key>
 	<key value="Chinese">
 		<comment>Text from MenuItem.</comment>
 		<val lang="en_US">Chinese</val>
-		<val lang="de_DE">Chinese</val>
-		<val lang="fr_FR">Chinese</val>
-		<val lang="ja_JP">Chinese</val>
+		<val lang="de_DE">Chinesisch</val>
+		<val lang="fr_FR">Chinois</val>
+		<val lang="ja_JP">中国人</val>
 		<val lang="nl_NL">Chinese</val>
 	</key>
 	<key value="Japanese">
 		<comment>Text from MenuItem.</comment>
 		<val lang="en_US">Japanese</val>
-		<val lang="de_DE">Japanese</val>
-		<val lang="fr_FR">Japanese</val>
-		<val lang="ja_JP">Japanese</val>
-		<val lang="nl_NL">Japanese</val>
+		<val lang="de_DE">Japanisch</val>
+		<val lang="fr_FR">Japonais</val>
+		<val lang="ja_JP">日本人</val>
+		<val lang="nl_NL">Japans</val>
 	</key>
 	<key value="Others_Submenu">
 		<comment>Text from Submenu.</comment>
 		<val lang="en_US">Others</val>
-		<val lang="de_DE">Others</val>
-		<val lang="fr_FR">Others</val>
-		<val lang="ja_JP">Others</val>
-		<val lang="nl_NL">Others</val>
+		<val lang="de_DE">Andere</val>
+		<val lang="fr_FR">Autres</val>
+		<val lang="ja_JP">その他</val>
+		<val lang="nl_NL">Anderen</val>
 	</key>
-	French
-	
+	<key value="ReplaceButtonText">
+		<comment>Replace button .</comment>
+		<val lang="en_US">Replace</val>
+		<val lang="de_DE">Ersetzen</val>
+		<val lang="fr_FR">Remplacer</val>
+		<val lang="ja_JP">交換する</val>
+		<val lang="nl_NL">Vervangen</val>
+	</key>
+	<key value="ReplaceContentWith">
+		<comment>Instructions from dialog box helper to translate </comment>
+		<val lang="en_US">Replace selected content with:</val>
+		<val lang="de_DE">Ersetzen Sie den ausgewählten Inhalt durch:</val>
+		<val lang="fr_FR">Remplacez le contenu sélectionné par:</val>
+		<val lang="ja_JP">選択したコンテンツを次のものに置き換えます：</val>
+		<val lang="nl_NL">Vervang geselecteerde inhoud door:</val>
+	</key>
+	<key value="ReplaceContentWithTranslation">
+		<comment>Title of  dialog box helper to translate.</comment>
+		<val lang="en_US">Replace Content With Translation</val>
+		<val lang="de_DE">Ersetzen Sie Inhalte durch Übersetzungen</val>
+		<val lang="fr_FR">Remplacer le contenu par la traduction</val>
+		<val lang="ja_JP">コンテンツを翻訳に置き換える</val>
+		<val lang="nl_NL">Vervang inhoud door vertaling</val>
+	</key>
+	<key value="CopyOption">
+		<comment>Copy button .</comment>
+		<val lang="en_US">copy</val>
+		<val lang="de_DE">kopieren</val>
+		<val lang="fr_FR">copie</val>
+		<val lang="ja_JP">写す</val>
+		<val lang="nl_NL">kopiëren</val>
+	</key>
+	<key value="PasteOption">
+		<comment>Paste button .</comment>
+		<val lang="en_US">paste</val>
+		<val lang="de_DE">einfügen</val>
+		<val lang="fr_FR">pâte</val>
+		<val lang="ja_JP">ペースト</val>
+		<val lang="nl_NL">plakken</val>
+	</key>
+	<key value="CutOption">
+		<comment>Cut button .</comment>
+		<val lang="en_US">cut</val>
+		<val lang="de_DE">schnitt</val>
+		<val lang="fr_FR">couper</val>
+		<val lang="ja_JP">切る</val>
+		<val lang="nl_NL">besnoeiing</val>
+	</key>
+	<key value="SelectAllOption">
+		<comment>Select all button .</comment>
+		<val lang="en_US">select all</val>
+		<val lang="de_DE">wählen Sie Alle</val>
+		<val lang="fr_FR">tout sélectionner</val>
+		<val lang="ja_JP">すべて選択</val>
+		<val lang="nl_NL">selecteer alles</val>
+	</key>
 </translation>

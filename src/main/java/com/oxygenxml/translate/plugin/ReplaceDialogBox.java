@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
@@ -19,28 +20,36 @@ import javax.swing.text.DefaultCaret;
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 import ro.sync.exml.workspace.api.options.WSOptionsStorage;
 import ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog;
-
+/**
+ * DialogBox class for translation replacement
+ * @author Badoi Mircea
+ *
+ */
 @SuppressWarnings("serial")
 public class ReplaceDialogBox extends OKCancelDialog {
-
-	private static final WSOptionsStorage OPTIONS_STORAGE = PluginWorkspaceProvider.getPluginWorkspace()
+	private static OxygenTranslator message = new OxygenTranslator();
+	private final String yAxisLocation = "ReplaceDialogBox_YAxis";
+	private final String xAxisLocation = "ReplaceDialogBox_XAxis";
+	private final WSOptionsStorage OPTIONS_STORAGE = PluginWorkspaceProvider.getPluginWorkspace()
 			.getOptionsStorage();
 	private JTextArea textInput;
-
+	/**
+	 * Makes a JDialog for translator plug-in in order to replace the selected text with translation
+	 */
 	public ReplaceDialogBox() {
-		super(null, "Replace Content With Translation", true);
-		setOkButtonText("Replace");
+		super(null, message.getTranslation(Tags.TRANSLATE_TO), true);
+		setOkButtonText(message.getTranslation(Tags.REPLACE_BUTTON_TEXT));
 		setLayout(new BorderLayout());
 		textInput = new JTextArea();
 		loadSavedLocationBox();
 		textInput.setWrapStyleWord(true);
 		textInput.setLineWrap(true);
 
-		JLabel instruction = new JLabel("Replace selected content with: ");
+		JLabel instruction = new JLabel(message.getTranslation(Tags.REPLACE_CONTENT_WITH));
 		add(instruction, BorderLayout.NORTH);
 
-		DefaultCaret caret = (DefaultCaret) textInput.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		DefaultCaret carret = (DefaultCaret) textInput.getCaret();
+		carret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);//move down as text programmatically is being inserted
 		JScrollPane scrollPane = new JScrollPane(textInput);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -49,12 +58,14 @@ public class ReplaceDialogBox extends OKCancelDialog {
 		scrollPane
 				.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 0)));
 		add(scrollPane, BorderLayout.CENTER);
-		popUpMenuDialogBox();
-		pack();
+		installPopUpMenuDialogBox();//pop up menu with options
+		pack(); 
 	}
-
-	private void popUpMenuDialogBox() {
-		textInput.addMouseListener(new MouseListenerAdapter() {
+	/**
+	 * Add pop up menu to JTextArea(right click mouse listener)
+	 */
+	private void installPopUpMenuDialogBox() {
+		textInput.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -68,11 +79,16 @@ public class ReplaceDialogBox extends OKCancelDialog {
 		});
 	}
 
+	/**
+	 * Create pop up menu and associate action to items
+	 * @return
+	 */
 	private JPopupMenu createDialogBoxPopupMenu() {
-		String cutAction = "cut";
-		String pasteAction = "paste";
-		String copyAction = "copy";
-		String selectAllAction = "select all";
+		
+		String cutAction = message.getTranslation(Tags.CUT_OPTION);
+		String pasteAction = message.getTranslation(Tags.PASTE_OPTION);
+		String copyAction = message.getTranslation(Tags.COPY_OPTION);
+		String selectAllAction = message.getTranslation(Tags.SELECTALL_OPTION);
 		
 		JPopupMenu popup = new JPopupMenu();
 		JMenuItem paste = new JMenuItem(new AbstractAction(pasteAction) {
@@ -115,21 +131,33 @@ public class ReplaceDialogBox extends OKCancelDialog {
 
 		return popup;
 	}
-
+	/**
+	 * Load saved location of the JDialog for persistence
+	 */
 	private void loadSavedLocationBox() {
-		if (OPTIONS_STORAGE.getOption("XSize", null) != null) {
-			Integer x = Integer.valueOf(OPTIONS_STORAGE.getOption("XSize", null));
-			Integer y = Integer.valueOf(OPTIONS_STORAGE.getOption("YSize", null));
-			setLocation(x, y);
+		if (OPTIONS_STORAGE.getOption(xAxisLocation, null) != null) {
+			Integer xAx = Integer.valueOf(OPTIONS_STORAGE.getOption(xAxisLocation, null));
+			Integer yAx = Integer.valueOf(OPTIONS_STORAGE.getOption(yAxisLocation, null));
+			setLocation(xAx, yAx);
 		} else {
 			setLocationRelativeTo(null);
 		}
 
 	}
-
-	public void saveLocationBox() {
-		OPTIONS_STORAGE.setOption("XSize", Integer.toString(this.getX()));
-		OPTIONS_STORAGE.setOption("YSize", Integer.toString(this.getY()));
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if(! visible) {
+			saveLocationBox();
+		}
+		super.setVisible(visible);
+	}
+	/**
+	 * Save actual location of the JDialog for persistence
+	 */
+	private void saveLocationBox() {
+		OPTIONS_STORAGE.setOption(xAxisLocation, Integer.toString(this.getX()));
+		OPTIONS_STORAGE.setOption(yAxisLocation, Integer.toString(this.getY()));
 
 	}
 

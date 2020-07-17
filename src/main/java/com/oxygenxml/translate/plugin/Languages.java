@@ -11,12 +11,25 @@ import java.util.Map;
 import java.util.Set;
 
 import ro.sync.exml.workspace.api.options.WSOptionsStorage;
-
+/**
+ * Stores the supported languages 
+ * @author Badoi Mircea
+ *
+ */
 public class Languages {
-<<<<<<< HEAD
-	public static final String ID_LANG = "com.oxygenxml.key.language.priority";
+	/**
+	 * The language storage key
+	 * Public for tests.
+	 */
+	public static final String LANG_STORAGE_KEY = "com.oxygenxml.key.language.priority";
+	/**
+	 * Maps an ISO language code to a language name
+	 */
 	public static final HashMap<String, String> LANGUAGES = new LinkedHashMap<>();
 	
+	/**
+	 * Private constructor
+	 */
 	private Languages() {
 		//empty to avoid instantiation
 	};
@@ -24,9 +37,6 @@ public class Languages {
 	/**
 	 * Supported languages
 	 */
-=======
-	private static LinkedHashMap<String, String> lang = new LinkedHashMap<>();
->>>>>>> parent of 9d09272... update
 	static {
 		LANGUAGES.put("en", "English");
 		LANGUAGES.put("fr", "French");
@@ -38,50 +48,43 @@ public class Languages {
 		LANGUAGES.put("nl", "Dutch");
 		LANGUAGES.put("hu", "Hungarian");
 		LANGUAGES.put("da", "Danish");
-
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Get the corresponding name for a given id
 	 * 
-	 * @param id
-	 * @return String
+	 * @param id Shorthand names like (ro,de,hu,fr,etc)
+	 * @return String Full name for the corresponding id
 	 */
-=======
-	
-	
->>>>>>> parent of 9d09272... update
 	public static String getLanguageName(String id) {
 		return LANGUAGES.get(id);
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Returns the id for every supported language
-	 * @param store
-	 * @param languages
+	 * @param WSOptionsStorage for persistence
+	 * @param Languages Shorthand languages in the correct priority order 
 	 * @return
 	 */
-	public static String[] getLanguagesISOCodes(WSOptionsStorage store, Set<String> languages) {
-		String[] langCodes = store.getStringArrayOption(ID_LANG, null);
-		List<String> langs = new ArrayList<String>(languages);
-		Map<String, Integer> priorities = new HashMap<String, Integer>();
+	public static String[] getPrioritizedLanguageISOCodes(WSOptionsStorage store, Set<String> languageISOCodes) {
+		String[] langCodes = store.getStringArrayOption(LANG_STORAGE_KEY, null);//saved only clicked languages
+		List<String> langIsoCodes = new ArrayList<String>(languageISOCodes);
+		Map<String, Integer> codeToIndexMap = new HashMap<String, Integer>();
 		if(langCodes != null) {
 			for (int i = 0; i < langCodes.length; i++) {
-				priorities.put(langCodes[i], i);
+				codeToIndexMap.put(langCodes[i], i);
 			}
 			
-			Collections.sort(langs, new Comparator<String>() {
+			//sort the id's by priority
+			Collections.sort(langIsoCodes, new Comparator<String>() {
 	
 				@Override
 				public int compare(String o1, String o2) {
-					Integer p1 = priorities.get(o1);
-					Integer p2 = priorities.get(o2);
+					Integer p1 = codeToIndexMap.get(o1);
+					Integer p2 = codeToIndexMap.get(o2);
 	
 					if (p1 != null && p2 != null) {
-						int result = p1 - p2;
-						return result >= 1 ? 1 : (result < 0 ? -1 : 0);
+						return p1 - p2;
 					} else if (p1 != null) {
 						return -1;
 					} else if (p2 != null) {
@@ -94,20 +97,16 @@ public class Languages {
 			});
 		}
 
-		return langs.toArray(new String[0]);
-=======
-	
-	public static String[] getLanguges() {
-		return new ArrayList<String>(lang.keySet()).toArray(new String[0]);
->>>>>>> parent of 9d09272... update
+		return langIsoCodes.toArray(new String[0]);
 	}
+	
 	/**
 	 * Increases priority for the most used languages
-	 * @param store
-	 * @param id Language ISO
+	 * @param WSOptionsStorage for persistence
+	 * @param id Language shorthand
 	 */
 	public static void increasePriorityLanguage(WSOptionsStorage store, String id) {
-		String[] langCodes = store.getStringArrayOption(ID_LANG, null);
+		String[] langCodes = store.getStringArrayOption(LANG_STORAGE_KEY, null);
 		List<String> codes = new ArrayList<String>();
 		if (langCodes != null) {
 			codes.addAll(Arrays.asList(langCodes));
@@ -115,7 +114,7 @@ public class Languages {
 		
 		codes.remove(id);
 		codes.add(0, id);
-		store.setStringArrayOption(ID_LANG, codes.toArray(new String[0]));
+		store.setStringArrayOption(LANG_STORAGE_KEY, codes.toArray(new String[0]));
 	}
 	
 

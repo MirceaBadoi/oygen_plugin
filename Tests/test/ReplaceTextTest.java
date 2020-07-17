@@ -2,6 +2,7 @@ package test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -9,7 +10,7 @@ import org.w3c.css.sac.InputSource;
 import org.xml.sax.SAXException;
 
 import com.oxygenxml.translate.plugin.ReplaceWordsUtil;
-import com.oxygenxml.translate.plugin.TranslateToLanguageAction;
+import com.oxygenxml.translate.plugin.SegmentInfo;
 
 import junit.framework.TestCase;
 import ro.sync.ecss.component.CSSInputSource;
@@ -38,7 +39,7 @@ public class ReplaceTextTest extends TestCase {
 	}
 	
 	public void testReplace1() throws Exception {
-		
+		String pattern = " _7561_\n";
 		String xmlDoc = 
 				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE concept PUBLIC \"-//OASIS//DTD DITA Concept//EN\" \"concept.dtd\">\n" + 
@@ -52,7 +53,7 @@ public class ReplaceTextTest extends TestCase {
 				"";
 		
 		String replacementText = 
-				"Algunas de las flores que florecen en otoño " + TranslateToLanguageAction.PATTERN + " flor "+ TranslateToLanguageAction.PATTERN + " otoño " + TranslateToLanguageAction.PATTERN + " son: Acashi.";
+				"Algunas de las flores que florecen en otoño " + pattern + " flor "+ pattern + " otoño " + pattern + " son: Acashi.";
 		
 		
 		AuthorDocumentController controller = createAuthorDocument(xmlDoc);
@@ -60,8 +61,11 @@ public class ReplaceTextTest extends TestCase {
 		AuthorElement rootElement = controller.getAuthorDocumentNode().getRootElement();
 		AuthorNode conbody = rootElement.getContentNodes().get(1);
 		AuthorNode p = ((AuthorElement)conbody).getContentNodes().get(0);
-		
-		//ReplaceWordsUtil.replaceText(controller, p.getStartOffset(), p.getEndOffset(), replacementText, TranslateToLanguageAction.PATTERN);
+		StringBuilder textSelectedTransformed = new StringBuilder();
+		ArrayList<SegmentInfo> whiteSpaces = new ArrayList<SegmentInfo>();
+		whiteSpaces = ReplaceWordsUtil.transformSelectedText(controller.getTextContentIterator(p.getStartOffset(),
+				p.getEndOffset()), textSelectedTransformed, pattern);
+		ReplaceWordsUtil.replaceText(controller, p.getStartOffset(), p.getEndOffset(), replacementText, pattern, whiteSpaces);
 		
 		AuthorDocumentFragment frag = controller.createDocumentFragment(controller.getAuthorDocumentNode().getRootElement(), true);
 		String xml = controller.serializeFragmentToXML(frag);
@@ -73,8 +77,8 @@ public class ReplaceTextTest extends TestCase {
 				"  id=\"autumnFlowers\">\n" + 
 				"  <title>Flowers</title>\n" + 
 				"  <conbody>\n" + 
-				"    <p>Algunas de las flores que florecen en otoño <indexterm> flor <indexterm> otoño\n" + 
-				"        </indexterm></indexterm> son: Acashi.</p>\n" + 
+				"    <p>Algunas de las flores que florecen en\r\n" + 
+				"        otoño<indexterm>flor<indexterm>otoño</indexterm></indexterm> son: Acashi.</p>\n" + 
 				"  </conbody>\n" + 
 				"</concept>\n" + 
 				"", prettyPrint);

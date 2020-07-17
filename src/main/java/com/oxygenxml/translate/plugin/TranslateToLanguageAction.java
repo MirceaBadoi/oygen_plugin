@@ -6,11 +6,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
-<<<<<<< HEAD
 
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.content.TextContentIterator;
-import ro.sync.ecss.extensions.api.content.TextContext;
 import ro.sync.exml.editor.EditorPageConstants;
 import ro.sync.exml.workspace.api.PluginWorkspace;
 import ro.sync.exml.workspace.api.editor.WSEditor;
@@ -23,22 +21,12 @@ import ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog;
  * @author Badoi Mircea
  *
  */
-=======
-import ro.sync.exml.workspace.api.PluginWorkspace;
-import ro.sync.exml.workspace.api.editor.WSEditor;
-import ro.sync.exml.workspace.api.editor.page.WSEditorPage;
-import ro.sync.exml.workspace.api.editor.page.WSTextBasedEditorPage;
-import ro.sync.exml.workspace.api.standalone.StandalonePluginWorkspace;
-
->>>>>>> parent of 9d09272... update
 @SuppressWarnings("serial")
 public class TranslateToLanguageAction extends AbstractAction {
 
 	private PluginWorkspace pluginWorkspaceAccess;
-<<<<<<< HEAD
 	private String languageCode;
 	private WSTextBasedEditorPage textPage;
-	public static final String PATTERN = " _674_1_\n";
 
 	/**
 	 * 
@@ -60,51 +48,36 @@ public class TranslateToLanguageAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String pattern = PatternGenerator.randomPatternDelimiter(1000, 9999);
 		WSEditor editorAccess = textPage.getParentEditor();
-		ArrayList<Integer> finalWhiteSpace = new ArrayList<Integer>();
-		ArrayList<Integer> beginingWhiteSpace = new ArrayList<Integer>();
 		if (EditorPageConstants.PAGE_AUTHOR.equals(editorAccess.getCurrentPageID())) {
 			StringBuilder textSelectedTransformed = new StringBuilder();
-			WSAuthorEditorPage authorAccess = (WSAuthorEditorPage) editorAccess.getCurrentPage();
-			AuthorDocumentController controller = authorAccess.getDocumentController();
-			TextContentIterator documentIterator = controller.getTextContentIterator(authorAccess.getSelectionStart(),
-					authorAccess.getSelectionEnd());
-			while (documentIterator.hasNext()) {
-				TextContext next = documentIterator.next();
-				String content = next.getText().toString();
-				if (content.endsWith(" ")) {
-					finalWhiteSpace.add(1);
-				} else {
-					finalWhiteSpace.add(0);
-				}
-
-				if (content.startsWith(" ")) {
-					beginingWhiteSpace.add(1);
-				} else {
-					beginingWhiteSpace.add(0);
-				}
-				textSelectedTransformed.append(content).append(PATTERN);
-			}
+			WSAuthorEditorPage authorPage = (WSAuthorEditorPage) editorAccess.getCurrentPage();
+			AuthorDocumentController controller = authorPage.getDocumentController();
+			TextContentIterator documentIterator = controller.getTextContentIterator(authorPage.getSelectionStart(),
+					authorPage.getSelectionEnd());
+			
+			ArrayList<SegmentInfo> whiteSpaces = new ArrayList<SegmentInfo>();
+				whiteSpaces = ReplaceWordsUtil.transformSelectedText(documentIterator, textSelectedTransformed, pattern);
+			if(whiteSpaces.size() <= 1) {
+				browse(textPage.getSelectedText());
+			} else {
+				
 			browse(textSelectedTransformed.toString());
+			ReplaceDialogBox replaceDialog = new ReplaceDialogBox();
+			replaceDialog.setVisible(true);
+			if (replaceDialog.getResult() == OKCancelDialog.RESULT_OK && !replaceDialog.getText().trim().equals("")) {
+	
+				ReplaceWordsUtil.replaceText(controller, authorPage.getSelectionStart(),
+						authorPage.getSelectionEnd(), replaceDialog.getText(), pattern, whiteSpaces);
+				}
+			}
 		} else {
 			browse(textPage.getSelectedText());
 		}
 
 		Languages.increasePriorityLanguage(pluginWorkspaceAccess.getOptionsStorage(), languageCode);
-		ReplaceDialogBox replaceDialog = new ReplaceDialogBox();
-		replaceDialog.setVisible(true);
-		if (replaceDialog.getResult() == OKCancelDialog.RESULT_OK) {
-			if (EditorPageConstants.PAGE_AUTHOR.equals(editorAccess.getCurrentPageID())) {
-				WSAuthorEditorPage authorPage = (WSAuthorEditorPage) editorAccess.getCurrentPage();
-				AuthorDocumentController controller = authorPage.getDocumentController();
 
-				ReplaceWordsUtil.replaceText(controller, authorPage.getSelectionStart(), authorPage.getSelectionEnd(),
-						replaceDialog.getText(), PATTERN, finalWhiteSpace, beginingWhiteSpace);
-
-			}
-		} else {
-			replaceDialog.saveLocationBox();
-		}
 	}
 
 	/**
@@ -112,43 +85,6 @@ public class TranslateToLanguageAction extends AbstractAction {
 	 * 
 	 * @param selectedText
 	 */
-=======
-	private String language;
-
-
-	/**
-	 * 
-	 * @param pluginWorkspaceAccess
-	 * @param language
-	 */
-	public TranslateToLanguageAction(PluginWorkspace pluginWorkspaceAccess, String language) {
-		this.pluginWorkspaceAccess = pluginWorkspaceAccess;
-		this.language = language;
-	}
-	
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		// Get the current opened XML document
-		WSEditor editorAccess = pluginWorkspaceAccess
-				.getCurrentEditorAccess(StandalonePluginWorkspace.MAIN_EDITING_AREA);
-
-		if (editorAccess != null) {
-			WSEditorPage currentPage = editorAccess.getCurrentPage();
-			if (currentPage instanceof WSTextBasedEditorPage) {
-				WSTextBasedEditorPage wsTextBasedEditorPage = (WSTextBasedEditorPage)currentPage; 
-				if (wsTextBasedEditorPage.hasSelection()) {
-
-					browse(wsTextBasedEditorPage.getSelectedText());
-
-				}
-			} 
-			
-		}
-	}
-	
->>>>>>> parent of 9d09272... update
 	private void browse(String selectedText) {
 
 		try {
@@ -159,6 +95,6 @@ public class TranslateToLanguageAction extends AbstractAction {
 		} catch (Exception ex) {
 		}
 	}
-	
-	
+
+
 }
